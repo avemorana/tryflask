@@ -47,9 +47,11 @@ def login():
         password = request.form['password']
         db = get_db()
         error = None
+        print(2)
         user = db.execute(
-            'select * from users where username = ?', (username),
+            'SELECT * FROM user WHERE username = ?', (username,),
         ).fetchone()
+        print(1)
 
         if user is None:
             error = 'Incorrect username.'
@@ -66,7 +68,7 @@ def login():
     return render_template('auth/login.html')
 
 
-@bp.before_app_request()
+@bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
 
