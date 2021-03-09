@@ -47,11 +47,9 @@ def login():
         password = request.form['password']
         db = get_db()
         error = None
-        print(2)
         user = db.execute(
             'SELECT * FROM user WHERE username = ?', (username,),
         ).fetchone()
-        print(1)
 
         if user is None:
             error = 'Incorrect username.'
@@ -60,7 +58,7 @@ def login():
 
         if error is None:
             session.clear()
-            session.user_id = user['id']
+            session['user_id'] = user['id']
             return redirect(url_for('index'))
 
         flash(error)
